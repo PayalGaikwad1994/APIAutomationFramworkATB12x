@@ -1,5 +1,6 @@
 package com.thetestingacdemy.pojos.requestPOJO;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Booking {
@@ -8,6 +9,9 @@ public class Booking {
     private String lastname;
     private Integer totalprice;
     private Boolean depositpaid;
+    private Bookingdates bookingdates;
+    private String additionalneeds;
+    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     public String getFirstname() {
         return firstname;

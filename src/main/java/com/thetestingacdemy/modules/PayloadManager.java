@@ -2,9 +2,14 @@ package com.thetestingacdemy.modules;
 
 import com.github.javafaker.Faker;
 import com.google.gson.Gson;
+import com.thetestingacdemy.pojos.requestPOJO.Auth;
 import com.thetestingacdemy.pojos.requestPOJO.Booking;
 import com.thetestingacdemy.pojos.requestPOJO.Bookingdates;
+import com.thetestingacdemy.pojos.requestPOJO.LoginRequest;
 import com.thetestingacdemy.pojos.responsePOJO.BookingResponse;
+import com.thetestingacdemy.pojos.responsePOJO.InvalidTokenResponse;
+import com.thetestingacdemy.pojos.responsePOJO.LoginResponse;
+import com.thetestingacdemy.pojos.responsePOJO.TokenResponse;
 
 public class PayloadManager {
     Gson gson;
@@ -64,6 +69,12 @@ public class PayloadManager {
         return bookingResponse;
     }
 
+    public Booking getResponseFromJSON(String responseString) {
+        gson = new Gson();
+        Booking bookingResponse = gson.fromJson(responseString, Booking.class);
+        return bookingResponse;
+    }
+
     public String createPayloadBookingFakerJS(){
         faker  = new Faker();
 
@@ -86,5 +97,71 @@ public class PayloadManager {
         String jsonStringBooking = gson.toJson(booking);
         return jsonStringBooking;
 
+    }
+
+    public String fullUpdatePayloadAsString() {
+        Booking booking = new Booking();
+        booking.setFirstname("Lucky");
+        booking.setLastname("Dutta");
+        booking.setTotalprice(112);
+        booking.setDepositpaid(true);
+
+        Bookingdates bookingdates = new Bookingdates();
+        bookingdates.setCheckin("2024-02-01");
+        bookingdates.setCheckout("2024-02-05");
+        booking.setBookingdates(bookingdates);
+        booking.setAdditionalneeds("Breakfast");
+        return gson.toJson(booking);
+
+
+    }
+
+    // Java Object -> JSON
+    public String setAuthPayload(){
+        Auth auth = new Auth();
+        auth.setUsername("admin");
+        auth.setPassword("password123");
+
+        gson = new Gson();
+        String jsonPayloadString = gson.toJson(auth);
+        System.out.println("Payload set to the -> " + jsonPayloadString);
+        return jsonPayloadString;
+
+    }
+
+    // DeSer ( JSON String -> Java Object
+    public String getTokenFromJSON(String tokenResponse){
+        gson = new Gson();
+        TokenResponse tokenResponse1 = gson.fromJson(tokenResponse, TokenResponse.class);
+        return  tokenResponse1.getToken();
+    }
+
+    public String getInvalidResponse(String invalidTokenResponse){
+        gson = new Gson();
+        InvalidTokenResponse tokenResponse1 = gson.fromJson(invalidTokenResponse, InvalidTokenResponse.class);
+        return  tokenResponse1.getReason();
+    }
+
+    // Java Object -> JSON
+    public String setLoginData(){
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("contact+aug@thetestingacademy.com");
+        loginRequest.setPassword("TtxkgQ!s$rJBk85");
+        loginRequest.setRemember(false);
+        loginRequest.setRecaptchaResponseField("");
+
+
+        gson = new Gson();
+        String jsonPayloadString = gson.toJson(loginRequest);
+        System.out.println("Payload Login to the -> " + jsonPayloadString);
+        return jsonPayloadString;
+
+    }
+
+    // DeSer ( JSON String -> Java Object
+    public LoginResponse getLoginData(String loginResponseEx){
+        gson = new Gson();
+        LoginResponse loginResponse = gson.fromJson(loginResponseEx, LoginResponse.class);
+        return  loginResponse;
     }
 }
